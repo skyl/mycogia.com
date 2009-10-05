@@ -1,0 +1,14 @@
+{% load i18n %}
+You have been invited by {{ user }} to join Mycogia.
+
+{% if user.get_profile.name %}
+{{ user.get_profile.name }} said:
+{% endif %}
+
+{{ message|safe }}
+
+To accept this invitation, go to
+
+{{ accept_url }}
+
+If you have any questions about Mycogia, don't hesitate to contact skylar.saveland@mycogia.com

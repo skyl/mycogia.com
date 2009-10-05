@@ -1,0 +1,241 @@
+/*
+form#start-tribe {
+    display:None;
+}
+*/
+a.button {
+    font-size:150%;
+    padding:0.2em;
+    margin:0.2em;
+}
+
+a, a:visited {
+    color: #f42;
+}
+a:hover {
+    /* color:#542;*/
+    color:#2402CC;
+}
+
+
+input[type="submit"] {
+    margin: 6px;
+    padding: 1px;
+}
+
+textarea#new_tweet {
+    height:2.5em;
+}
+
+div#body {
+    background-color:#dfefff;
+    min-height:80%;
+}
+div#tribe-page {
+    /*background-color:#dfefff;
+    padding:0;*/
+    width:70%;
+
+}
+
+h1, h2 { padding:0.2em;text-align:center;}
+h2 a {
+    color: #f42;
+}
+
+h1 {
+    color: #012; background-color:#BCD; 
+}
+
+h2 {
+    color: #123; background-color:#CDE; 
+}
+
+h1.left, h2.left { text-align:left; }
+
+textarea { width:85%; padding:0.2em; }
+textarea#id_content, textarea#id_body { width:90%; height:12em; }
+
+textarea#id_tease { width:90%; height:3em; }
+
+div#profile_avatar {padding: 0.5em 1em 1em 0; }
+
+table.bookmarks { margin:0 auto;}
+
+tbody { padding: 0 1em; }
+
+div#clockbox0, div#calendarbox0 {
+    z-index:100;
+}
+
+div.map-thumb { float: right; width:50%; height:200px; margin:1em 0 1em 1em;}
+div.map-thumb-list {float:right; width:50%; height:100px; margin:0 0 0 1em;}
+
+div.form-toggle { }
+
+dt { clear:both; margin-top:1em; }
+
+dd { height:120px; }
+dl.what_next dd { height:20px; }
+/* wiki */
+div.section h1 { text-align:left; background:none; padding:0;}
+
+/* 
+ *  Tables (Blog)
+ */
+
+th.odd {
+    background: #DDC;
+}
+
+th.even {
+    background: #EED;
+}
+
+tr.odd {
+        background-color: #FFE;
+    }
+
+tr.even {
+    background-color: #EED;
+}
+
+
+
+table.bookmarks {
+    width:100%;
+
+}
+
+.bookmarks .even {
+    background-color: #eefeff;
+}
+.bookmarks .odd {
+    background-color: #eff3f8;
+}
+
+td h2 { text-align:left;background:none; }
+
+h2.task_open {
+    text-align:left;
+}
+
+h2.task_open a, h2 a {
+    text-decoration:none;
+}
+
+td.meta { width:200px; text-align:center;}
+
+dl.tribe-list { width:100%; margin: 0 auto; }
+
+table.bookmarks td {
+}
+
+div.blog-post {
+    min-height: 400px;
+}
+
+ul.responses {
+    background: #456;
+}
+
+fieldset.inlineLabels {
+    background: #CDE;
+}
+
+input#id_recipient {
+    width:200px;
+}
+
+h1 a, h1 a:visited {
+    color:#012;
+}
+h1 a:hover {
+    color:#2402cc;
+}
+
+DIV.bulk h2 {
+    text-align: left; padding:.5em 1em .5em 1em;
+}
+
+div#tabhead {
+    background:#000;
+}
+
+div.left_panel { width:70%;}
+
+div.vcard {width:100%;}
+
+div.document { background:#eff3f8; padding:1em;}
+
+div.document h1, div.document h2 { text-align:left;color:#000; background: none; }
+
+.left {text-align:left; padding: .5em 0em .5em 1em; }
+
+div#tabhead div.login {
+    position: absolute;
+    top: 6px;
+    right: 15px;
+    color: #CDE; /* login bar text colour */
+    float:left;
+    text-align:right;
+}
+
+div#tabhead { width:100%; }
+
+div.task-meta { width:8%; }
+div.bulk {width:80%; }
+
+div#pitch {float:right;width:46%;background:#eff3f8;padding:1% 2%;}
+
+div#google-news {width:100%; height:100px;}
+.gns-728x90 {margin: 0 auto; }
+h2#welcome { width:36%; float:left;  }
+
+div.profile { background:#eff3f8; margin:0.25em;padding:0.25em; }
+
+h2.task_open{
+background:none;
+}
+
+div.task { background:#eff3f8 }
+
+form#search {float:right;width:50%;z-index:10; position:relative;margin-right:1em;}
+
+div.friends { background:#eff3f8; }
+
+div.members { background: #eff3f8; }
+
+
+.gallery-photo-thumb {width:200px; margin: 1em; }
+
+.thumb-row { width:95%; margin: 0 auto; }
+
+td.active-member { width: 30%; }
+
+tr {width: 100%; }
+
+div.avatar { width:40px; margin:0 auto;}
+
+div.tribes { position: relative; z-index:1; }
+
+div.photo-avatar {position:relative; z-index:1;}
+
+div#map {z-index:1;}
+
+div.details, div.created {text-align:center;}
+
+
+form table {width:75%;}
+
+div#profiles-map {width:90%; height:550px; margin: 2em auto; }
+
+div#profiles-map-description {text-align:center; }
+
+div#footer { text-align:center; }
+div.legal {text-align:center; }
+
+div.video-result_gsvsc {margin:0 auto; }
+
+
+form.connect-button {margin:1em;}

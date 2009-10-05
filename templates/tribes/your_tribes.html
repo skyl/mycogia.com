@@ -1,0 +1,58 @@
+{% extends "tribes/base.html" %}
+
+{% load i18n %}
+{% load pagination_tags %}
+{% load tribe_tags %}
+
+{% block head_title %}{% trans "Your Tribes" %}{% endblock %}
+
+{% block extra_head %}
+
+   <script type="text/javascript" src="http://www.google.com/jsapi?key={{GAK}}"></script>
+
+    <script type="text/javascript">
+        google.load("maps", "2");
+        //google.load("search", "1");
+        // Call this function when the page has been loaded
+        function initialize() {
+            if (GBrowserIsCompatible()){
+                {% for tribe in tribes %}
+                var map = new google.maps.Map2(document.getElementById("map-{{tribe.id}}"));
+                
+                var center = new GLatLng({{tribe.point.tuple.1}},{{tribe.point.tuple.0}});
+                map.setCenter(center, 2);
+
+                var marker = new GMarker(center, {draggable: false});
+                map.addOverlay(marker);
+                map.setMapType(G_SATELLITE_MAP);
+
+                //map.setCenter(new google.maps.LatLng(37.4419, -122.1419), 13);
+                //var searchControl = new google.search.SearchControl();
+                //searchControl.addSearcher(new google.search.WebSearch());
+                //searchControl.addSearcher(new google.search.NewsSearch());
+                //searchControl.draw(document.getElementById("searchcontrol"));
+                {% endfor %}
+            }
+        }
+        google.setOnLoadCallback(initialize);   
+        
+    </script>
+{% endblock %}
+
+{% block body %}
+    
+    <h1>{% trans "Your Tribes" %}</h1>
+    
+    <p>{% trans "These are the tribes you participate in." %}</p>
+        
+    {% autopaginate tribes %}
+    
+    <dl>
+        {% for tribe in tribes %}
+            {% show_tribe tribe %}
+        {% endfor %}
+    </dl>
+    
+    {% paginate %}
+    
+{% endblock %}

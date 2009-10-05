@@ -1,0 +1,71 @@
+{% extends "blog/base.html" %}
+
+{% load i18n %}
+{% load humanize %}
+{% load pagination_tags %}
+{% load extra_tagging_tags %}
+{% comment %}
+{% load blog %}
+{% endcomment %}
+{% load markup %}
+{% load switchcase %}
+{% load restructuredtext %}
+{% load blog_tags %}
+
+{% block head_title %}{% blocktrans %}All Posts{% endblocktrans %}{% endblock %}
+
+{% block extra_head %}
+<link rel="alternate" type="application/atom+xml" title="Post Feed for All Users" href="/feeds/posts/all/" />
+   <script type="text/javascript" src="http://www.google.com/jsapi?key={{GAK}}"></script>
+
+    <script type="text/javascript">
+        google.load("maps", "2");
+        //google.load("search", "1");
+        // Call this function when the page has been loaded
+        function initialize() {
+            if (GBrowserIsCompatible()){
+                {% for b in blogs %}
+                var map = new google.maps.Map2(document.getElementById("map-{{b.id}}"));
+                
+                var center = new GLatLng({{b.point.tuple.1}},{{b.point.tuple.0}});
+                map.setCenter(center, {{b.zoom}});
+
+                var marker = new GMarker(center, {draggable: false});
+                map.addOverlay(marker);
+                map.setMapType(G_SATELLITE_MAP);
+
+                //map.setCenter(new google.maps.LatLng(37.4419, -122.1419), 13);
+                //var searchControl = new google.search.SearchControl();
+                //searchControl.addSearcher(new google.search.WebSearch());
+                //searchControl.addSearcher(new google.search.NewsSearch());
+                //searchControl.draw(document.getElementById("searchcontrol"));
+                {% endfor %}
+            }
+        }
+        google.setOnLoadCallback(initialize);   
+        
+    </script>
+
+
+{% endblock %}
+
+{% block body %}
+
+    <h1>{% trans "All Posts" %}</h1>
+
+    {% if blogs %}
+        <p>{% trans "These are posts from everyone:" %}</p>
+
+        {% autopaginate blogs %}
+
+            {% for blog_post in blogs %}
+                {% show_blog_post blog_post %}
+            {% endfor %}
+
+        {% paginate %}
+
+    {% else %}
+        {% trans "No posts yet." %}
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,127 @@
+{% extends "tribes/base.html" %}
+{% load i18n %}
+{% load uni_form %}
+{% load humanize %}
+{% load pagination_tags %}
+{% load order_by %}
+{% load extra_tagging_tags %}
+{% load tribe_tags %}
+{% load point_tags %}
+
+{% block head_title %}{% blocktrans %}Groups{% endblocktrans %}{% endblock %}
+
+{% block extra_head %}
+{% for tribe in tribes %}
+{% show_google_all tribe %}
+{% endfor %}
+
+{% endblock %}
+
+{% block body %}
+    <form method="GET" action="" id="search">
+        <input style="float:right; clear:right;" type="submit" value="Search" />
+        <input style="float:right;" type="text" name="search" value="{{ search_terms }}" />
+        {% if search_terms %}
+            <br>
+            <a href="{% clear_search_url request %}">Clear Search Terms</a>
+        {% endif %}
+    </form>
+
+    <h1>{% trans "Groups" %}</h1>
+    
+    {% if user.is_authenticated %}
+    {% comment %}
+        <div class="form-toggle">
+            <p><span id="start-tribe-toggle">{% trans "CLICK HERE to hide this form" %}</a></p>
+            <form class="uniForm" id="start-tribe" method="POST" action="{% url tribe_create %}">
+                <fieldset class="inlineLabels">
+                    {% get_tribe_form as tribe_form %}
+                    {{ tribe_form|as_uni_form }}
+                    <div class="form_block">
+                        <input type="hidden" name="action" value="create" />
+                        <input type="submit" value="{% trans "create" %}"/>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <hr>
+    {% endcomment %}
+    {% else %}
+        {% url acct_signup as signup_url %}
+        {% url acct_login as login_url %}
+        <p>{% blocktrans %}<a href="{{ signup_url }}">Sign up</a> and <a href="{{ login_url }}">log in </a> to create your own group or join an existing one.{% endblocktrans %}</p>
+    {% endif %}
+
+    {% autopaginate tribes 10 %}
+    {% if tribes %}
+        <p>{% trans "Order by:" %}
+            {% ifequal order 'most_topics' %}
+                <a href="{% url tribe_list_least_topics %}{% persist_getvars request %}">{% trans "Topics" %} &uarr;</a>
+            {% else %}
+                {% ifequal order 'least_topics' %}
+                    <a href="{% url tribe_list_most_topics %}{% persist_getvars request %}">{% trans "Topics" %} &darr;</a>
+                {% else %}
+                    <a href="{% url tribe_list_most_topics %}{% persist_getvars request %}">{% trans "Topics" %}</a>
+                {% endifequal %}
+            {% endifequal %}
+            {% ifequal order 'most_members' %}
+                <a href="{% url tribe_list_least_members %}{% persist_getvars request %}">{% trans "Members" %} &uarr;</a>
+            {% else %}
+                {% ifequal order 'least_members' %}
+                    <a href="{% url tribe_list_most_members %}{% persist_getvars request %}">{% trans "Members" %} &darr;</a>
+                {% else %}
+                    <a href="{% url tribe_list_most_members %}{% persist_getvars request %}">{% trans "Members" %}</a>
+                {% endifequal %}
+            {% endifequal %}
+            {% ifequal order 'name_descending' %}
+                <a href="{% url tribe_list_name_ascending %}{% persist_getvars request %}">{% trans "Name" %} &uarr;</a>
+            {% else %}
+                {% ifequal order 'name_ascending' %}
+                    <a href="{% url tribe_list_name_descending %}{% persist_getvars request %}">{% trans "Name" %} &darr;</a>
+                {% else %}
+                    <a href="{% url tribe_list_name_ascending %}{% persist_getvars request %}">{% trans "Name" %}</a>
+                {% endifequal %}
+            {% endifequal %}
+            {% ifequal order 'date_newest' %}
+                <a href="{% url tribe_list_date_oldest %}{% persist_getvars request %}">{% trans "Date" %} &uarr;</a>
+            {% else %}
+                {% ifequal order 'date_oldest' %}
+                    <a href="{% url tribe_list_date_newest %}{% persist_getvars request %}">{% trans "Date" %} &darr;</a>
+                {% else %}
+                    <a href="{% url tribe_list_date_oldest %}{% persist_getvars request %}">{% trans "Date" %}</a>
+                {% endifequal %}
+            {% endifequal %}
+        </p>
+        <dl class="tribe-list">
+        {% for tribe in tribes %}
+            {% show_tribe tribe %}
+        {% endfor %}
+        </dl>
+        {% paginate %}
+    {% endif %}
+    
+{% endblock %}
+
+{% block extra_body %}
+    {% comment %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#start-tribe').hide();
+            $('#start-tribe-toggle').toggle(
+                function() {
+                    $(this).html('CLICK HERE to start a new tribe');
+                },
+                function() {
+                    $(this).html('CLICK HERE to hide this form');
+                }
+            );
+            $('#start-tribe-toggle').click(function() {
+                
+                $('#start-tribe').toggle();
+                $('#start-tribe').autoscroll();
+                return false;
+            });
+        });
+    </script>
+    {%endcomment%}
+{% endblock %}

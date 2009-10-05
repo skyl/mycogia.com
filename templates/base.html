@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+{% load i18n %}
+<html xmlns="http://www.w3.org/1999/xhtml" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}" xml:lang="{{ LANGUAGE_CODE }}" lang="{{ LANGUAGE_CODE }}">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title>{% if site_name %}{{ site_name }} : {% endif %}{% block head_title %}{% endblock %}</title>
+
+        <!--[if IE]><style>
+            div {
+                zoom: 1; /* trigger hasLayout */
+            }
+        </style><![endif]-->
+        <link rel="stylesheet" href="{{ MEDIA_URL }}base.css" />
+        <link rel="stylesheet" href="{{ MEDIA_URL }}pinax/css/tabs.css" />
+        <link rel="stylesheet" href="{{ MEDIA_URL }}pinax/css/uni-form.css" />
+        <script src="{{ MEDIA_URL }}pinax/js/jquery.js" type="text/javascript"></script>
+
+{%comment %}<script src="http://www.google.com/jsapi"></script>{%endcomment%}
+<script type="text/javascript" src="http://www.google.com/jsapi?key={{GAK}}"></script>
+<script>
+google.load('jquery', '1.3.2');
+google.load('jqueryui', '1.7.2');
+</script>
+
+        <script src="{{ MEDIA_URL }}pinax/js/uni-form.jquery.js" type="text/javascript"></script>
+
+<script type="text/javascript" src="{{MEDIA_URL}}js/jquery.corner.js"></script>
+
+
+        {% if LANGUAGE_BIDI %}
+        <style type="text/css" media="screen">
+            div.right_panel {
+                float: left; /* hotfix for sidebar */
+            }
+        </style>
+        {% endif %}
+
+        {% block extra_head_base %}
+
+            {% block extra_head %}{% endblock %}
+        {% endblock %}
+<script> $(function() { $('input[type=text]').addClass('text'); }); </script>
+<!--[if IE]><style>
+div.left_panel {
+    width: 70%;
+    float:left;
+}
+input.text{ width:50%; }
+div#pitch { width: 44%; }
+div#google-news {margin:-1px;}
+</style>
+-->
+
+    </head>
+    
+    <body>
+        {% if site_wide_announcements %}
+            <div id="site_wide_announcements">
+                <ul>
+                    {% for announcement in site_wide_announcements %}
+                    <li>
+                        <a href="{{ announcement.get_absolute_url }}">{{ announcement }}</a> -
+                        <a href="{% url announcement_hide announcement.pk %}?next={{ request.path }}">{% trans "Hide announcement" %}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        
+        <div id="tabhead">
+            <div class="logo" dir="ltr">{% block logo_link_image %}{% endblock %}</div>
+            <div class="login">{% block login %}{% endblock %}{% block locale_switcher %}{% endblock %}<div style="text-align: right;"></div></div>
+            <div class="tabs" {% block tab_id %}{% endblock %}>{% block tabs %}{% endblock %}</div>
+            <div class="right_tab" {% block rtab_id %}{% endblock %}>{% block right_tab %}{% endblock %}</div>
+        </div>
+        <div id="subnav" class="clearfix">{% block subnav %}&nbsp;{% endblock %}</div>
+        
+        <div id="body">
+            {% if messages %}
+                <ul id="messages">
+                    {% for message in messages %}
+                    <li id="message_{{ forloop.counter }}"><a href="#" onclick="$('#message_{{ forloop.counter }}').fadeOut(); return false;"><small>{% trans "clear" %}</small></a> {{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            
+            {% block body %}
+            {% endblock %}
+            
+        </div>
+        
+        <div id="footer">{% block footer %}{% endblock %}</div>
+<script>
+  $(function() {
+    $('h1, h2').corner('5px').css('z-index','0');
+    $('div#pitch').corner('5px');
+    $('#body').corner("bottom 5px");
+    $('form#search').css('z-index', '100');
+    $('div.avatar img').wrap('<div></div>').each( function(){
+        $(this).parent().width(40).height(40).css('margin', '1em auto 0 auto').corner('5px');
+    });
+    $('div.task-meta div.avatar img').wrap('<div></div>').each( function() {
+        $(this).parent().width(40).height(40).corner('5px').css('margin', '1em 0 0 0');
+    });
+    $('div#profile_avatar img.photo').wrap('<div></div>').each( function() {
+        $(this).parent().width(120).height(120).corner('5px');
+    });
+    $('div.tribes').corner('5px').css('margin', '0 0 1em 0');
+    $('div.friends').corner('5px').css('margin', '0 0 1em 0');
+    $('div.members').corner('5px');
+    $('div.photo-avatar img').css({'position': 'relative', 'z-index':'1' }).wrap('<div></div>').each(function() { 
+        $(this).parent().width(50).height(50).corner('5px').css({'position': 'relative', 'z-index':'1' });
+    });
+    //$('div.details').width(80).css('text-align', 'center');
+    //$('div.created').width(80).css('text-align', 'center');
+  });
+</script>
+
+
+
+        {% block extra_body_base %}
+            {% block extra_body %}{% endblock %}
+        {% endblock %}
+
+
+        
+    </body>
+</html>

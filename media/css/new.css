@@ -1,0 +1,153 @@
+/*
+form#start-tribe {
+    display:None;
+}
+*/
+a.button {
+    font-size:150%;
+    padding:0.2em;
+    margin:0.2em;
+}
+
+a, a:visited {
+    color: #f42;
+}
+a:hover {
+    color:#542;
+}
+
+
+input[type="submit"] {
+    margin: 6px;
+    padding: 1px;
+}
+
+textarea#new_tweet {
+    height:2.5em;
+}
+
+div#body {
+    background-color:#dfefff;
+    min-height:600px;
+}
+div#tribe-page {
+    /*background-color:#dfefff;
+    padding:0;*/
+    width:70%;
+
+}
+
+h1, h2 { padding:0.2em;text-align:center;}
+h2 a {
+    color: #f42;
+}
+
+h1 {
+    color: #012; background-color:#BCD; 
+}
+
+h2 {
+    color: #123; background-color:#CDE; 
+}
+
+textarea { width:85%; padding:0.2em; }
+textarea#id_content, textarea#id_body { width:90%; height:12em; }
+
+textarea#id_tease { width:90%; height:3em; }
+
+div#profile_avatar {padding: 0.5em 1em 1em 0; }
+
+table.bookmarks { margin:0 auto;}
+
+tbody { padding: 0 1em; }
+
+div#clockbox0, div#calendarbox0 {
+    z-index:100;
+}
+
+div.map-thumb { float: right; width:50%; height:200px; margin:1em 0 1em 1em;}
+div.map-thumb-list {float:right; width:50%; height:100px; margin:0 0 0 1em;}
+
+div.form-toggle { }
+
+dt { clear:both; margin-top:1em; }
+
+dd { height:120px; }
+dl.what_next dd { height:20px; }
+/* wiki */
+div.section h1 { text-align:left; background:none; padding:0;}
+
+/* 
+ *  Tables (Blog)
+ */
+
+th.odd {
+    background: #DDC;
+}
+
+th.even {
+    background: #EED;
+}
+
+tr.odd {
+        background-color: #FFE;
+    }
+
+tr.even {
+    background-color: #EED;
+}
+
+
+
+table.bookmarks {
+    width:100%;
+
+}
+
+.bookmarks .even {
+    background-color: #ddd;
+}
+.bookmarks .odd {
+    background-color: #eee;
+}
+
+td h2 { text-align:left;background:none; }
+
+h2.task_open {
+    text-align:left;
+}
+
+h2.task_open a, h2 a {
+    text-decoration:none;
+}
+
+td.meta { width:200px; }
+
+dl.tribe-list { width:80%; margin: 0 auto; }
+
+table.bookmarks td {
+}
+
+div.blog-post {
+    min-height: 400px;
+}
+
+ul.responses {
+    background: #456;
+}
+
+fieldset.inlineLabels {
+    background: #CDE;
+}
+
+input#id_recipient {
+    width:200px;
+}
+
+h1 a, h1 a:visited {
+    color:#321;
+}
+
+DIV.bulk h2 {
+    text-align: left;
+}

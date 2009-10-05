@@ -1,0 +1,63 @@
+{% extends "blog/base.html" %}
+
+{% load i18n %}
+{% load uni_form %}
+
+{% block head_title %}{% blocktrans %}Write a Post{% endblocktrans %}{% endblock %}
+
+{% block extra_head %}
+{{ blog_form.media }}
+<script>
+jQuery.fn.slugify = function(obj) {
+    jQuery(this).data('obj', jQuery(obj));
+    jQuery(this).keyup(function() {
+        var obj = jQuery(this).data('obj');
+        var slug = jQuery(this).val().replace(/\s+/g,'-').replace(/[^a-zA-Z0-9\-]/g,'').toLowerCase();
+        obj.val(slug);
+    });
+}
+ 
+
+    $(function() {
+       
+        $('#div_id_zoom').hide();
+        $('#div_id_slug').hide();
+        $('form#edit-profile').submit( function() {
+            $('input#id_zoom').val(myMap.map.getZoom());
+            $('input#id_slug').val(
+                    $('input#id_title').val().replace(/\s+/g,'-').replace(/[^a-zA-Z0-9\-]/g,'').toLowerCase()
+            );
+
+        });
+
+
+    });
+
+</script>
+
+{% endblock %}
+
+{% block body %}
+    
+    {# @@@ not sure how to bring back teaser toggle with uni_form #}
+    <form class="uniForm" id="edit-profile" method="POST" action="">
+        <fieldset class="inlineLabels">
+            {{ blog_form|as_uni_form }}
+            <div class="form_block">
+            <input type="hidden" name="action" value="create" />
+            <input type="submit" value="{% trans "create" %}"/>
+            </div>
+        </fieldset>
+    </form>
+    
+{% endblock %}
+
+{% block extra_body %}
+    {% load jquery_validation %}
+    {% include_validation %}
+    <script type="text/javascript">
+        $(function(){
+            $('#blog_form').validate('{% url blog_form_validate %}', {type: 'table'});
+        });
+    </script>
+{% endblock %}

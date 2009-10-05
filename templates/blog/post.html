@@ -1,0 +1,78 @@
+{% extends "blog/base.html" %}
+
+{% load i18n %}
+{% load humanize %}
+{% load comments_tag %}
+{% load tagging_tags %}
+{% comment %}
+{% load blog %}
+{% endcomment %}
+{% load blog_tags %}
+
+{% block head_title %}{% blocktrans %}Post{% endblocktrans %} : {{ post.title }}{% endblock %}
+
+{% block extra_head %}
+    <link rel="alternate" type="application/atom+xml" title="Post Feed for All Users" href="/feeds/posts/all/" />
+    <link rel="alternate" type="application/atom+xml" title="Post Feed for User {{ post.author.username }}" href="/feeds/posts/only/{{ post.author.username }}/" />
+
+   <script type="text/javascript" src="http://www.google.com/jsapi?key={{GAK}}"></script>
+
+    <script type="text/javascript">
+        google.load("maps", "2");
+        //google.load("search", "1");
+        // Call this function when the page has been loaded
+        function initialize() {
+            if (GBrowserIsCompatible()){
+                var map = new google.maps.Map2(document.getElementById("map"));
+                
+                var center = new GLatLng({{post.point.tuple.1}},{{post.point.tuple.0}});
+                map.setCenter(center, {{post.zoom}});
+
+                var marker = new GMarker(center, {draggable: false});
+                map.addOverlay(marker);
+                map.setMapType(G_SATELLITE_MAP);
+                map.addControl(new GSmallMapControl());
+                map.addControl(new GMapTypeControl());
+
+
+                //map.setCenter(new google.maps.LatLng(37.4419, -122.1419), 13);
+                //var searchControl = new google.search.SearchControl();
+                //searchControl.addSearcher(new google.search.WebSearch());
+                //searchControl.addSearcher(new google.search.NewsSearch());
+                //searchControl.draw(document.getElementById("searchcontrol"));
+            }
+        }
+        google.setOnLoadCallback(initialize);   
+        
+    </script>
+
+
+{% endblock %}
+
+{% block body %}
+    
+    <div class="blog-post">
+        <h2>{{ post.title }}</h2>
+
+        <div id="map" style="width:40%; height:360px; float:right; margin:1em;"></div>
+
+
+        <div class="blog-meta"><p>Posted by: <a href="{% url profile_detail post.author.username %}">{{ post.author.username }}</a> on {{ post.publish|date }}</p></div>
+        <div class="blog-tags">
+            <p><img src="{{ MEDIA_URL }}pinax/images/silk/icons/tag_blue.png" border="0" class="noborder" align="absmiddle" />
+            {% tags_for_object post as tags %}
+            {% for tag in tags %}
+                <a href="/tags/{{ tag }}">{{ tag }}</a>
+            {% endfor %}</p>
+            {% ifequal post.author request.user %}
+                <a href="{% url blog_edit post.id %}">Edit Post</a>
+            {% endifequal %}
+        </div>
+        
+        {% render_content post 'body' %}
+        
+    </div>
+    
+    <h3>Comments on This Post:</h3>
+    {% comments post %}
+{% endblock %}

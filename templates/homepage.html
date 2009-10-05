@@ -1,0 +1,101 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+{% load facebook_tags %}
+
+{% block head_title %}{% trans "Welcome" %}{% endblock %}
+
+{% block tab_id %}id="home_tab"{% endblock %}
+
+{% block extra_head %}
+    <script type="text/javascript">
+        google.load("maps", "2", {"other_params" : "sensor=true"});
+        //google.load("search", "1");
+        // Call this function when the page has been loaded
+        function initialize() {
+            if (GBrowserIsCompatible()){
+                    var zoom = 2;
+                    var map = new google.maps.Map2(document.getElementById("map"));
+                    if (google.loader.ClientLocation != null){
+                    center = new GLatLng(google.loader.ClientLocation.latitude,
+                                            google.loader.ClientLocation.longitude);
+                    }else{
+                    center = new GLatLng(0,0);
+                    }
+                    map.setCenter(center, zoom);
+       
+                    var point;
+                    var marker;
+                    {% for p in points %}
+                    point = new GLatLng({{p.point.tuple.1}}, {{p.point.tuple.0}});
+                    marker = new GMarker(point, {draggable: false});
+                    GEvent.addListener(marker, "click", function() {
+                        var myHtml = "\
+<div style='width:80%; margin: 0 auto;text-align:center;'>\
+    <a href='{{p.content_object.get_absolute_url}}'>{{p.content_object}}</a>\
+    <br>{% if p.content_object.get_thumbnail_url %}\
+        <div style='height:75px;'>\
+            <img src='{{ p.content_object.get_thumbnail_url }}' alt='{{ p.content_object.title }}'></img>\
+        </div>{% endif %}\
+</div>";
+                        clickPoint = new GLatLng({{p.point.tuple.1}}, {{p.point.tuple.0}});
+                        map.openInfoWindowHtml(clickPoint, myHtml, {maxWidth:100});
+                        //console.log("{{p.point.tuple.1}}");
+                    });
+                    
+                    map.addOverlay(marker);
+                    {% endfor %}
+                    map.setMapType(G_SATELLITE_MAP);
+                    map.addControl(new GSmallMapControl());
+                    map.addControl(new GMapTypeControl());
+
+
+                    //map.setCenter(new google.maps.LatLng(37.4419, -122.1419), 13);
+                    //var searchControl = new google.search.SearchControl();
+                    //searchControl.addSearcher(new google.search.WebSearch());
+                    //searchControl.addSearcher(new google.search.NewsSearch());
+                    //searchControl.draw(document.getElementById("searchcontrol"));
+            }
+        }
+        google.setOnLoadCallback(initialize);   
+        
+    </script>
+
+
+{% load facebook_tags %}
+{% facebook_js %}
+{% endblock %}
+
+{% block body %}
+<div style="text-align:center;">
+    <h1>Mycogia, a global network for humans</h1>
+    <h3>Join and add your voice.  Help us change the world.</h3>
+    {% if user.is_authenticated %}
+    <div style="clear:both;"></div>
+	<div class="what_next"><a href="{% url profile_detail user %}">View your {% trans "Profile" %}</a></div>
+
+        {% if not user.facebook_profile %}
+	    {% show_connect_button %}
+
+        {% else %}
+            <p> You have connected your account here with facebook. </p>
+        {% endif %}
+    {% else %}
+        {% url acct_signup as signup_url %}
+        {% url acct_login as login_url %}
+        <div style="width:100%;clear:both; text-align:center;" id="show-connect">
+        <p>{% blocktrans %}You can <a href="{{ signup_url }}">Sign up</a> and <a href="{{ login_url }}">Log in</a> or {% endblocktrans %}</p>
+        {% show_connect_button %}
+        </div>
+    {% endif %}
+</div>
+
+<div style="width:95%;height:475px;margin:0 auto 1em auto;" id="map">
+</div>
+
+{% endblock %}
+
+{% block extra_body %}
+{% initialize_facebook_connect %}
+
+{% endblock %}

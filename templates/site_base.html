@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load openid_tags %}
+{% load svn_app_version %}
+{% load analytics %}
+
+{% block extra_head_base %}
+
+    <link rel="stylesheet" href="{{ MEDIA_URL }}css/site_tabs.css" />
+    <link rel="stylesheet" href="{{ MEDIA_URL }}pinax/css/topics.css" />
+    <script type="text/javascript" src="{{ MEDIA_URL }}pinax/js/topics.js"></script>
+    <link rel="stylesheet" href="{{ MEDIA_URL }}css/new.css" />
+    <script type="text/javascript">
+        $(document).ready(function(){  
+            $("a[href*='http://']:not([href*='"+location.hostname+"'])").attr("target","_blank");  
+        });  
+    </script>
+
+    <script type="text/javascript" src="{{ MEDIA_URL }}jquery.bgiframe.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}jquery.dimensions.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}jquery.ajaxQueue.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}jquery.autocomplete.js"></script>
+    {% comment %}
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.nginxUploadProgress.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.uploadprogress.0.3.js"></script>
+   
+<script type="text/javascript" charset="utf-8">
+//<![CDATA[
+$(document).ready(function() { 
+    $(function() {
+	$('form[@enctype=multipart/form-data]').after('<div id="progress_container"><div id="progress_filename"></div><div id="progress_bar"><div id="progress_indicator"></div></div></div>');
+
+        $('form[@enctype=multipart/form-data]').uploadProgress({
+            jqueryPath: "{{MEDIA_URL}}js/jquery.js",
+            progressBar: '#progress_indicator',
+            progressUrl: '/progress',
+            start: function() {
+                $('form[@enctype=multipart/form-data]').hide();
+                filename = $("#id_image").val().split(/[\/\\]/).pop();
+                $("#progress_filename").html('Uploading ' + filename + "...");
+                $("#progress_container").show();
+            },
+            uploadProgressPath: "{{MEDIA_URL}}js/jquery.uploadProgress.js",
+            uploading: function(upload) {
+                if (upload.percents == 100) {
+                    window.clearTimeout(this.timer);
+                    $("#progress_filename").html('Processing ' + filename + "...");
+                } else {
+                    $("#progress_filename").html('Uploading ' + filename + ': ' + upload.percents + '%');
+                }
+            },
+            interval: 1000
+        });
+    });
+});
+//]]>
+</script>
+    {% endcomment %}
+
+ 
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $("#id_tags").autocomplete("{% url all_tags_autocomplete %}", {
+                max: 10,
+                highlight: false,
+                multiple: true,
+                multipleSeparator: " ",
+                scroll:true,
+                scrollHeight: 300,
+                matchContains: true,
+                autoFill: false
+        });
+{% comment %}
+        $("#id_email").autocomplete("{% url contacts_autocomplete %}", {
+        	max: 10,
+                highlight: false,
+                multiple: true,
+                multipleSeparator: " ",
+                scroll:true,
+                scrollHeight: 300,
+                matchContains: true,
+                autoFill: false
+        });
+{% endcomment %}
+    });
+    </script>
+
+
+
+
+    {% block extra_head %}{% endblock %}
+{% endblock %}
+
+
+
+
+{% block login %}
+    {% if user.is_authenticated %}
+        {% openid_icon openid user %}<b>{{ user }}</b> | <a href="{% url acct_email %}">{% trans "Account" %}</a> | {% if user.is_staff %}<a href="/admin/">{% trans "Admin" %}</a> | {% endif %}<a href="/openid/logout/?next={% url acct_logout %}">{% trans "Logout" %}</a>
+    {% else %}
+        <a href="{% url acct_login %}">{% trans "Login" %}</a> {% trans "or" %} <a href="{% url acct_signup %}"><b>{% trans "Sign up" %}</b></a>
+    {% endif %}
+{% endblock %}
+
+{% block locale_switcher %}
+    <form action="{% if request.user.is_authenticated %}{% url acct_language_change %}{% else %}/i18n/setlang/{% endif %}" method="post" id="locale_switcher">
+        <select name="language" onchange="$('#locale_switcher').submit()">
+            {% for lang in LANGUAGES %}
+                <option value="{{ lang.0 }}"{% ifequal lang.0 LANGUAGE_CODE %} selected="selected"{% endifequal %}>{{ lang.1 }}</option>
+            {% endfor %}
+        </select>
+    </form>
+{% endblock %}
+
+{% block logo_link_image %}<a href="{% url home %}"><img src="{{ MEDIA_URL }}pinax/images/logo.png" alt="Pinax"/></a>{% endblock %}
+
+
+
+{% block tabs %}
+{% comment %}
+    <table>
+        <tr>
+            <td class="tab tab_home"><div><a href="{% url home %}">{% trans "Home" %}</a></div></td>
+        </tr>
+    </table>
+{% endcomment %}
+{% endblock %}
+
+{% block right_tab %}
+        <table>
+            <tr>
+                <td class="tab rtab_profile"><div><a href="{% url profile_detail user %}">{% trans "Profile" %}</a></div></td>
+                <td class="tab rtab_photos"><div><a href="{% url photos %}">{% trans "Photos" %}</a></div></td>
+                <td class="tab rtab_blogs"><div><a href="{% url blog_list_all %}">{% trans "Posts" %}</a></div></td>
+                <td class="tab rtab_projects"><div><a href="{% url project_list %}">{% trans "Projects" %}</a></div></td>
+                <td class="tab rtab_tribes"><div><a href="{% url tribe_list %}">{% trans "Groups" %}</a></div></td>
+                <td class="tab rtab_tweets"><div><a href="{% url tweets_you_follow %}">{% trans "Tweets" %}</a></div></td>
+                <td class="tab rtab_bookmarks"><div><a href="{% url all_bookmarks %}">{% trans "Bookmarks" %}</a></div></td>
+                <td class="tab rtab_swaps"><div><a href="{% url offer_list_all %}">{% trans "Swaps" %}</a></div></td>
+                <td class="tab rtab_inbox"><div><a href="{% url notification_notices %}">{% trans "Inbox" %} ({{ combined_inbox_count }})</a></div></td>
+                
+            </tr>
+        </table>
+{% endblock %}
+
+{% block footer %}
+<div class="legal">
+    {% trans "&copy; 2009, mycogia.com" %}
+    - <a href="{% url about %}">{% trans "About" %}</a>
+    - <a href="{% url terms %}">{% trans "Terms of Service" %}</a>
+    - <a href="{% url privacy %}">{% trans "Privacy Policy" %}</a>
+    - <a href="{% url dmca %}">{% trans "DMCA Notice" %}</a>
+    - Skylar Saveland
+{% comment %}
+    - Version: {% svn_app_version %}
+    - Django: {% svn_app_version "django" %}
+{% endcomment %}
+</div>
+{% endblock %}
+
+{% block extra_body_base %}
+    {% urchin %}
+    <script src="{{ MEDIA_URL }}base.js" type="text/javascript"></script>
+
+    {% block extra_body %}{% endblock %}
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-8777675-3");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+{% endblock %}

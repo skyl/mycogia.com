@@ -1,0 +1,10 @@
+I added olwidget by putting it into ./apps/
+
+pyfacebook and django-facebookconnect I used setup.py in the pinax-env
+I think that perhaps I should ship these with the apps and keep all changes outside of the env
+and what the boot script does.  This way I can try to upgrade pinax and get only my over-rides from
+myApp (but get all of them).
+
+RESOLUTION: I am using setup.py in the v-env but putting the apps under ./ext/ to "ship" with them ready to set-up for now
+
+

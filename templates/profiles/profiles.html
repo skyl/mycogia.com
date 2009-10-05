@@ -1,0 +1,91 @@
+{% extends "profiles/base.html" %}
+
+{% load i18n %}
+{% load pagination_tags %}
+{% load avatar_tags %}
+{% load humanize %}
+{% load profile_tags %}
+
+{% block head_title %}{% blocktrans %}All Profiles{% endblocktrans %}{% endblock %}
+
+{% block extra_head %}
+   <script type="text/javascript" src="http://www.google.com/jsapi?key={{GAK}}"></script>
+
+    <script type="text/javascript">
+        google.load("maps", "2");
+        //google.load("search", "1");
+        // Call this function when the page has been loaded
+        function initialize() {
+            if (GBrowserIsCompatible()){
+                {% for u in users %}
+                {% if u.get_profile.point %}
+                    var map = new google.maps.Map2(document.getElementById("map-{{u.get_profile.id}}"));
+                    
+                    var center = new GLatLng({{u.get_profile.point.tuple.1}},{{u.get_profile.point.tuple.0}});
+                    map.setCenter(center, 2);
+
+                    var marker = new GMarker(center, {draggable: false});
+                    map.addOverlay(marker);
+                    map.setMapType(G_SATELLITE_MAP);
+
+                    //map.setCenter(new google.maps.LatLng(37.4419, -122.1419), 13);
+                    //var searchControl = new google.search.SearchControl();
+                    //searchControl.addSearcher(new google.search.WebSearch());
+                    //searchControl.addSearcher(new google.search.NewsSearch());
+                    //searchControl.draw(document.getElementById("searchcontrol"));
+                {% endif %}
+                {% endfor %}
+            }
+        }
+        google.setOnLoadCallback(initialize);   
+        
+    </script>
+
+
+{% endblock %}
+
+
+{% block body %}
+    <h1>{% trans "Profiles" %}</h1>
+
+    <form method="GET" action="">
+        <input type="text" name="search" value="{{ search_terms }}" />
+        <input type="submit" value="Search" />
+        {% if search_terms %}
+            <a href="{% clear_search_url request %}">Clear Search Terms</a>
+        {% endif %}
+    </form>
+
+    {% if users %}
+        <p>{% trans "Order by:" %}
+            {% ifequal order 'date' %}
+                <a href="{% url profile_list %}?order=name">{% trans "Name" %} &uarr;</a>
+            {% else %}
+                <a href="{% url profile_list %}?order=date">{% trans "Date" %} &darr;</a>
+            {% endifequal %}
+        </p>
+
+        {% autopaginate users%}
+        
+        {% ifequal order 'date'  %}
+            {% regroup users by date_joined.date as users_by_date_joined %}
+
+            {% for date in users_by_date_joined %}
+                <h2 class="join_date">{{ date.grouper|naturalday:_("MONTH_DAY_FORMAT")|capfirst }}</h2>
+
+                {% for user in date.list %}
+                    {% show_profile user %}
+                {% endfor %}
+            {% endfor %}
+        {% else %}
+            {% for user in users %}
+                {% show_profile user %}
+            {% endfor %}
+        {% endifequal %}    
+        
+        {% paginate %}
+        
+       {% else %}
+           <p>No profile were found.</p>
+      {% endif %}
+{% endblock %}
