@@ -10,15 +10,12 @@ PROJECT_ROOT = os.path.realpath(os.path.dirname(__file__))
 # tells Pinax to use the default theme
 PINAX_THEME = 'default'
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 # tells Pinax to serve media through django.views.static.serve.
 SERVE_MEDIA = False
 
-ADMINS = ( ,)
-
-MANAGERS = ADMINS
 
 DATABASE_ENGINE = 'postgresql_psycopg2'
 from local_settings import DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD, DATABASE_HOST, DATABASE_PORT
@@ -238,3 +235,5 @@ try:
 except ImportError:
     pass
 
+
+MANAGERS = ADMINS

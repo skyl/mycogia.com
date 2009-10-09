@@ -67,8 +67,8 @@ class Post(models.Model):
     })
     get_absolute_url = models.permalink(get_absolute_url)
     def save(self, force_insert=False, force_update=False):
-        print "HOAISJDOIJEOIENF"
-        print self.id
+        #print "HOAISJDOIJEOIENF"
+        #print self.id
         self.updated_at = datetime.now()
         super(Post, self).save(force_insert, force_update)
         from points.models import Point
@@ -76,7 +76,7 @@ class Post(models.Model):
         if not Point.objects.filter(
                 content_type=ContentType.objects.get_for_model(self),
                 object_id = self.id,
-                ):
+                ) and self.point:
             p=Point(zoom=self.zoom, point=self.point,
                     owner=self.author, object_id=self.id,
                     content_type=ContentType.objects.get_for_model(self),
