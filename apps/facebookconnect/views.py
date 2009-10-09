@@ -57,7 +57,7 @@ def facebook_login(request):
             return HttpResponseRedirect(reverse('facebook_setup')+"?next=%s" % next)
     
     logging.debug("FBC: Got redirected here")
-    url = reverse('auth_login')
+    url = reverse('acct_login')
     if request.GET.get('next',False):
         url += "?next=%s" % request.GET['next']
     return HttpResponseRedirect(url)
