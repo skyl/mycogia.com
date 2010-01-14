@@ -82,14 +82,18 @@ def setup(request):
         profile = FacebookProfile(facebook_id=request.facebook.uid)
         
         if request.POST.get('facebook_only',False):
-            try:
-                user = User(username=profile.first_name,
-                    password=sha.new(str(random.random())).hexdigest()[:8])
+            if not User.objects.filter(username=profile.first_name):
+                user = User(
+                    username=profile.first_name,
+                    password=sha.new(str(random.random())).hexdigest()[:8]
+                )
                 user.save()
 
-            except:
-                user = User(username=profile.first_name + str(random.randint(100, 10000000000)),
-                    password=sha.new(str(random.random())).hexdigest()[:8])
+            else:
+                user = User( 
+                    username = str(request.facebook.uid),
+                    password = sha.new( str(random.random())).hexdigest()[:8] 
+                )
                 user.save()
         
             if request.POST['map']:

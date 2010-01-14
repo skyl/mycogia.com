@@ -9,7 +9,7 @@
 <dd>
         
 
-{{ tribe.description }}
+{{ tribe.description|truncatewords:50 }}
     <div class="project_stats">
         {% trans "Members:" %} <b>{{ tribe.members.count }}</b>
         {% trans "Topics:" %} <b>{{ tribe.topics.count }}</b>
