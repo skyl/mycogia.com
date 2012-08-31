@@ -67,14 +67,13 @@ class ProjectUpdateForm(forms.ModelForm):
 
 
 class TopicForm(forms.ModelForm):
-    
+
     class Meta:
         model = Topic
         fields = ('title', 'body', 'tags')
 
 
 class TaskForm(forms.ModelForm):
-    
 
     def __init__(self, project, *args, **kwargs):
         super(TaskForm, self).__init__(*args, **kwargs)
@@ -99,31 +98,31 @@ class StatusForm(forms.ModelForm):
     a form for changing the status of a task
     """
     status = forms.CharField(widget=forms.TextInput(attrs={'size':'40'}))
-    
+
     class Meta:
         model = Task
         fields = ('status',)
 
 
 class AddUserForm(forms.Form):
-    
+
     recipient = forms.CharField(label=_(u"User"))
-    
+
     def __init__(self, project, *args, **kwargs):
         super(AddUserForm, self).__init__(*args, **kwargs)
         self.project = project
-    
+
     def clean_recipient(self):
         try:
             user = User.objects.get(username__exact=self.cleaned_data['recipient'])
         except User.DoesNotExist:
             raise forms.ValidationError(_("There is no user with this username."))
-            
+
         if ProjectMember.objects.filter(project=self.project, user=user).count() > 0:
             raise forms.ValidationError(_("User is already a member of this project."))
-        
+
         return self.cleaned_data['recipient']
-    
+
     # @@@ we don't need to pass in project any more as we have self.project
     def save(self, project, user):
         new_member = User.objects.get(username__exact=self.cleaned_data['recipient'])
@@ -137,9 +136,9 @@ class AddUserForm(forms.Form):
 
 
 class AwayForm(forms.Form):
-    
+
     away_message = forms.CharField(label=_(u"Message"))
-    
+
     def save(self, project_member):
         project_member.away = True
         project_member.away_message = self.cleaned_data['away_message']

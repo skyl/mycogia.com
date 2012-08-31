@@ -35,7 +35,7 @@ class Template(models.Model):
 
     def __unicode__(self):
         return self.name
-    
+
     def save(self, *args, **kwargs):
         self.last_changed = datetime.now()
         # If content is empty look for a template with the given name and
