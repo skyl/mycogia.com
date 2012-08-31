@@ -7,7 +7,7 @@ from django.contrib.sites.models import Site
 from django.contrib.sites.managers import CurrentSiteManager
 from django.utils.translation import gettext_lazy as _
 from django.template import TemplateDoesNotExist
-from django.template.loader import find_template_source
+from django.template.loader import find_template
 from django.core.exceptions import ImproperlyConfigured
 
 class Template(models.Model):

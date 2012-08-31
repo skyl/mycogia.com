@@ -18,9 +18,7 @@ class BlogForm(forms.ModelForm):
             }
         ), required=False)
 
-    slug = forms.SlugField(max_length=200,
-        help_text = _("a short version of the title consisting only of letters, numbers, underscores and hyphens."),
-        error_message = _("This value must contain only letters, numbers, underscores and hyphens."))
+    slug = forms.SlugField(max_length=200)
 
     class Meta:
         model = Post

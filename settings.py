@@ -2,10 +2,10 @@
 # Django settings for complete pinax project.
 
 import os.path
-import pinax
+#import pinax
 
-PINAX_ROOT = os.path.realpath(os.path.dirname(pinax.__file__))
 PROJECT_ROOT = os.path.realpath(os.path.dirname(__file__))
+PINAX_ROOT = os.path.join(PROJECT_ROOT, "apps", "pinax")
 
 # tells Pinax to use the default theme
 PINAX_THEME = 'default'
@@ -17,8 +17,7 @@ TEMPLATE_DEBUG = DEBUG
 SERVE_MEDIA = False
 
 
-DATABASE_ENGINE = 'postgresql_psycopg2'
-from local_settings import DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD, DATABASE_HOST, DATABASE_PORT
+from local_settings import DATABASES
 
 # Local time zone for this installation. Choices can be found here:
 # http://www.postgresql.org/docs/8.1/static/datetime-keywords.html#DATETIME-TIMEZONE-SET-TABLE
@@ -59,15 +58,13 @@ MIDDLEWARE_CLASSES = (
 
     # FB
     'facebookconnect.middleware.FacebookConnectMiddleware',
-    
+
     'django_openid.consumer.SessionConsumer',
     'account.middleware.LocaleMiddleware',
     'django.middleware.doc.XViewMiddleware',
     'pagination.middleware.PaginationMiddleware',
     'misc.middleware.SortOrderMiddleware',
     'djangodblog.middleware.DBLogMiddleware',
-
-    
     'django.middleware.transaction.TransactionMiddleware',
 )
 
@@ -75,7 +72,7 @@ ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
     os.path.join(PROJECT_ROOT, "templates"),
-    os.path.join(PINAX_ROOT, "templates", PINAX_THEME),
+    #os.path.join(PINAX_ROOT, "templates", PINAX_THEME),
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -113,7 +110,6 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.humanize',
     'django.contrib.markup',
-    
     # external
     'notification', # must be first
     'django_openid',
@@ -128,7 +124,6 @@ INSTALLED_APPS = (
     'oembed',
     'djangodblog',
     'pagination',
-#    'gravatar',
     'threadedcomments',
     'wiki',
     'swaps',
@@ -143,9 +138,8 @@ INSTALLED_APPS = (
     'avatar',
     'flag',
     'microblogging',
-    'locations',
+    #'locations',
     'uni_form',
-
     # internal (for now)
     'analytics',
     'profiles',
