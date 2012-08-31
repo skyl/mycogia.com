@@ -1,0 +1,12 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+{% load group_tags %}
+
+{% block body_class %}wiki{% endblock %}
+
+{% block subnav %}
+    <ul>
+        <li><a href="{% groupurl wiki_list group %} ">{% trans "All Articles" %}</a></li>
+    </ul>
+{% endblock %}
