@@ -25,10 +25,7 @@ from django.contrib.admin import widgets
 
 class ProjectForm(forms.ModelForm):
 
-
-    slug = forms.SlugField(max_length=200,
-        help_text = _("a short version of the name consisting only of letters, numbers, underscores or hyphens."),
-        error_message = _("This value must contain only letters, numbers, underscores and hyphens."))
+    slug = forms.SlugField(max_length=200)
 
     def clean_slug(self):
         if Project.objects.filter(slug__iexact=self.cleaned_data["slug"]).count() > 0:

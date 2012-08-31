@@ -4,7 +4,10 @@ from friends.models import Contact
 
 import vobject
 import ybrowserauth
-import simplejson
+try:
+    import simplejson
+except ImportError:
+    import json as simplejson
 import gdata.contacts.service
 
 def import_vcards(stream, user):

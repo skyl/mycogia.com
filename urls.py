@@ -80,9 +80,9 @@ urlpatterns = patterns('',
     (r'^flag/', include('flag.urls')),
     #(r'^locations/', include('locations.urls')),
 
-    (r'^feeds/tweets/(.*)/$', 'django.contrib.syndication.views.feed', tweets_feed_dict),
-    (r'^feeds/posts/(.*)/$', 'django.contrib.syndication.views.feed', blogs_feed_dict),
-    (r'^feeds/bookmarks/(.*)/?$', 'django.contrib.syndication.views.feed', bookmarks_feed_dict),
+    (r'^feeds/tweets/(.*)/$', 'django.contrib.syndication.views.Feed', tweets_feed_dict),
+    (r'^feeds/posts/(.*)/$', 'django.contrib.syndication.views.Feed', blogs_feed_dict),
+    (r'^feeds/bookmarks/(.*)/?$', 'django.contrib.syndication.views.Feed', bookmarks_feed_dict),
 
     (r'^points/', include('points.urls')),
 )

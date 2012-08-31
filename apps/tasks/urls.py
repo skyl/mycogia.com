@@ -23,7 +23,7 @@ urlpatterns = patterns('',
 
         # exports
         url(r'^export_state_transitions.csv$', 'tasks.views.export_state_transitions', name="tasks_export_state_transitions"),
-        
+
         # feeds
-        (r'^feeds/(.*)/$', 'django.contrib.syndication.views.feed', tasks_feed_dict),
+        (r'^feeds/(.*)/$', 'django.contrib.syndication.views.Feed', tasks_feed_dict),
     )

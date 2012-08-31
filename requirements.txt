@@ -15,8 +15,10 @@ django-extensions==0.9
 django-notification==0.1.3
 python-openid==2.2.5
 django-microblogging==0.1.2
+vobject==0.8.1c
+gdata==2.0.17
+docutils==0.9.1
 
 pytz
 diff_match_patch
-
 

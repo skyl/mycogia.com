@@ -6,9 +6,7 @@ from tribes.models import Tribe, Topic
 
 class TribeForm(forms.ModelForm):
 
-    slug = forms.SlugField(max_length=200,
-        help_text = _("a short version of the name consisting only of letters, numbers, underscores and hyphens."),
-        error_message = _("This value must contain only letters, numbers, underscores and hyphens."))
+    slug = forms.SlugField(max_length=200)
 
     def clean_slug(self):
         reserved_slugs = ["your_tribes"]
@@ -31,7 +29,7 @@ class TribeForm(forms.ModelForm):
 # @@@ is this the right approach, to have two forms where creation and update fields differ?
 
 class TribeUpdateForm(forms.ModelForm):
-    
+
     def clean_name(self):
         if Tribe.objects.filter(name__iexact=self.cleaned_data["name"]).count() > 0:
             if self.cleaned_data["name"] == self.instance.name:
@@ -39,14 +37,14 @@ class TribeUpdateForm(forms.ModelForm):
             else:
                 raise forms.ValidationError(_("A tribe already exists with that name."))
         return self.cleaned_data["name"]
-    
+
     class Meta:
         model = Tribe
         fields = ('name', 'description', 'tags')
 
 
 class TopicForm(forms.ModelForm):
-    
+
     class Meta:
         model = Topic
         fields = ('title', 'body', 'tags')

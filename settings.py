@@ -43,8 +43,8 @@ MEDIA_ROOT = os.path.join(PROJECT_ROOT, "site_media")
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.load_template_source',
-    'django.template.loaders.app_directories.load_template_source',
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
     'dbtemplates.loader.load_template_source',
 )
 
@@ -76,11 +76,11 @@ TEMPLATE_DIRS = (
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.core.context_processors.auth",
     "django.core.context_processors.debug",
     "django.core.context_processors.i18n",
     "django.core.context_processors.media",
     "django.core.context_processors.request",
+    "django.contrib.auth.context_processors.auth",
 
     "notification.context_processors.notification",
     "announcements.context_processors.site_wide_announcements",
