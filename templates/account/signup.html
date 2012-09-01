@@ -16,20 +16,18 @@
         <p>{% trans "You are already logged in." %}</p>
     {% else %}
     <p>{% trans "Already have an account?" %}<a class="button" href="{% url acct_login %}">{% trans "Log In" %}!</a>
-    If you would prefer, you can also
+    If you would prefer, you can also:</p>
+    {% include "social_auth_buttons.html" %}
 
-    <a href="{% url socialauth_begin 'facebook' %}">Login FB</a>
-    </p>
-        
-        <form class="signup uniForm" id="signup_form" method="post" action="{% url acct_signup %}">
-            <fieldset class="inlineLabels">
-                {{ form|as_uni_form }}
-                <div  class="form_blick">
-                    <input type="submit" value="{% trans "Sign Up &raquo;" %}" />
-                </div>
-            </fieldset>
-        </form>
-        
+    <form class="signup uniForm" id="signup_form" method="post" action="{% url acct_signup %}">
+        <fieldset class="inlineLabels">
+            {{ form|as_uni_form }}
+            <div  class="form_blick">
+                <input type="submit" value="{% trans "Sign Up &raquo;" %}" />
+            </div>
+        </fieldset>
+    </form>
+    
         {% url terms as terms_url %}
         {% url privacy as privacy_url %}
         <p>{% blocktrans %}By clicking "Sign Up", you are indicating that you have read and agree to the <a href="{{ terms_url }}">Terms of Use</a> and <a href="{{ privacy_url }}">Privacy Policy</a>.{% endblocktrans %}</p>

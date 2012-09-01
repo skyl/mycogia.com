@@ -70,17 +70,12 @@
     {% if user.is_authenticated %}
     <div style="clear:both;"></div>
         <div class="what_next"><a href="{% url profile_detail user %}">View your {% trans "Profile" %}</a></div>
-
-        {% if not user.facebook_profile %}
-
-        {% else %}
-            <p> You have connected your account here with facebook. </p>
-        {% endif %}
     {% else %}
         {% url acct_signup as signup_url %}
         {% url acct_login as login_url %}
         <div style="width:100%;clear:both; text-align:center;" id="show-connect">
-        <p>{% blocktrans %}You can <a href="{{ signup_url }}">Sign up</a> and <a href="{{ login_url }}">Log in</a> or {% endblocktrans %}</p>
+        <p>{% blocktrans %}You can <a href="{{ signup_url }}">Sign up</a> and <a href="{{ login_url }}">Log in</a> or 
+{% endblocktrans %} {% include "social_auth_buttons.html" %}</p>
         </div>
     {% endif %}
 </div>
