@@ -47,10 +47,6 @@
             </div>
         
             {% if user.is_authenticated %}
-                <p>
-                    <a href="{% url tweet_followers other_user %}">{% trans "Followers" %}</a>: {{ followers_count }}
-                    <a href="{% url tweet_following other_user %}">{% trans "Following" %}</a>: {{ following_count }}
-                </p>
                 {% if is_me %}
                 <a href="/account/email/">Manage your email addresses</a>
                 
@@ -75,15 +71,6 @@
                     </div>
                 {% else %}
                     {# @@@ this could be done with ajax, or at the very least turned into an inclusion tag #}
-                    <div>
-                        <form method="POST" action="{% url toggle_follow other_user %}">
-                            {% if is_following %}
-                                <input type="hidden" name="action" value="unfollow" /><input type="submit" value="{% trans "unfollow" %}"/>
-                            {% else %}
-                                <input type="hidden" name="action" value="follow" /><input type="submit" value="{% trans "follow tweets" %}"/>
-                            {% endif %}
-                        </form>
-                    </div>
                     
                     {# @@@ this should be an inclusion tag #}
                     {% if is_friend %}
@@ -128,7 +115,7 @@
             {% else %} {# not user.is_authenticated #}
                 {% url acct_signup as signup_url %}
                 {% url acct_login as login_url %}
-                <p>{% blocktrans %}<a href="{{ signup_url }}">Sign up</a> and <a href="{{ login_url }}">log in </a> to add this person as a friend and see their tweets and blog posts.{% endblocktrans %}</p>
+                <p>{% blocktrans %}<a href="{{ signup_url }}">Sign up</a> and <a href="{{ login_url }}">log in </a> to add this person as a friend and see stuff.{% endblocktrans %}</p>
             {% endif %}
         </div>
     </div>

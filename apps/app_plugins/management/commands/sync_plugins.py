@@ -147,7 +147,7 @@ def sync_app_plugins(delete_removed=False, verbosity=1):
                                               options.get('ext', '.html'))
             # raise an error if it does not exist...
             template = options.get('template', default)
-            loader.find_template_source(template)
+            loader.find_template(template)
             p.template = template
             p.save()
 
@@ -167,7 +167,7 @@ def sync_app_plugins(delete_removed=False, verbosity=1):
             template = construct_template_path(app, name, ext)
             bFound = True
             try:
-                loader.find_template_source(template)
+                loader.find_template(template)
             except TemplateDoesNotExist:
                 bFound = False
             p = instances.get(label, None)

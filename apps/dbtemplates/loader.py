@@ -12,7 +12,7 @@ def load_template_source(template_name, template_dirs=None):
     and ``sites`` with the current site.
     """
     site = Site.objects.get_current()
-    display_name = 'db:%s:%s:%s' % (settings.DATABASE_ENGINE,
+    display_name = 'db:%s:%s:%s' % (settings.DATABASES["default"]["ENGINE"],
                                     template_name, site.domain)
     if backend:
         try:

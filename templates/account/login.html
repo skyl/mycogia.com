@@ -7,9 +7,6 @@
 {% block head_title %}{% trans "Login" %}{% endblock %}
 
 {% block extra_head %}
-{% load facebook_tags %}
-{% facebook_js %}
-
 {% endblock %}
 
 
@@ -29,9 +26,9 @@
     <form class="login uniForm" method="POST" action="">
         <fieldset class="inlineLabels">
             <div class="form_block">
-		<p>
+                <p>
                 <a href="{% url acct_passwd_reset %}">{% trans "Forgot password?" %}</a>
-		</p>
+                </p>
             </div>            
             {{ form|as_uni_form }}
             <div class="form_block">
@@ -73,6 +70,5 @@
     $("#id_username").focus();
 </script>
 
-{% initialize_facebook_connect %}
 
 {% endblock %}

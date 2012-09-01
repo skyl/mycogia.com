@@ -18,6 +18,8 @@ django-microblogging==0.1.2
 vobject==0.8.1c
 gdata==2.0.17
 docutils==0.9.1
+django-social-auth==0.7.5
+
 
 pytz
 diff_match_patch

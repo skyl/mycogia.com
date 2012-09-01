@@ -6,8 +6,6 @@
 {% block head_title %}{% trans "Signup" %}{% endblock %}
 
 {% block extra_head %}
-{% load facebook_tags %}
-{% facebook_js %}
 {% endblock %}
 
 
@@ -18,7 +16,10 @@
         <p>{% trans "You are already logged in." %}</p>
     {% else %}
     <p>{% trans "Already have an account?" %}<a class="button" href="{% url acct_login %}">{% trans "Log In" %}!</a>
-    If you would prefer, you can also {% show_connect_button %}</p>
+    If you would prefer, you can also
+
+    <a href="{% url socialauth_begin 'facebook' %}">Login FB</a>
+    </p>
         
         <form class="signup uniForm" id="signup_form" method="post" action="{% url acct_signup %}">
             <fieldset class="inlineLabels">
@@ -49,6 +50,5 @@
             $("#id_username").focus();
         });
     </script>
-{% initialize_facebook_connect %}
 {% endblock %}
 

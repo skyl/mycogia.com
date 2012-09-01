@@ -51,13 +51,13 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     # FB
-    'facebook.djangofb.FacebookMiddleware',
+    #'facebook.djangofb.FacebookMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     #'django.middleware.cache.CacheMiddleware',
 
     # FB
-    'facebookconnect.middleware.FacebookConnectMiddleware',
+    #'facebookconnect.middleware.FacebookConnectMiddleware',
 
     'django_openid.consumer.SessionConsumer',
     'account.middleware.LocaleMiddleware',
@@ -94,6 +94,12 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "mycogia.context_processors.keys",
     "points.context_processors.ol_media",
     "points.context_processors.GAK",
+
+    'social_auth.context_processors.social_auth_by_name_backends',
+    #'social_auth.context_processors.social_auth_backends',
+    #'social_auth.context_processors.social_auth_by_type_backends',
+    'social_auth.context_processors.social_auth_login_redirect',
+
 )
 
 COMBINED_INBOX_COUNT_SOURCES = (
@@ -159,7 +165,32 @@ INSTALLED_APPS = (
     'points',
     'django.contrib.gis',
     'facebookconnect',
+
+    'social_auth',
 )
+
+
+AUTHENTICATION_BACKENDS = (
+    #'social_auth.backends.twitter.TwitterBackend',
+    'social_auth.backends.facebook.FacebookBackend',
+    #'social_auth.backends.google.GoogleOAuthBackend',
+    #'social_auth.backends.google.GoogleOAuth2Backend',
+    #'social_auth.backends.google.GoogleBackend',
+    #'social_auth.backends.yahoo.YahooBackend',
+    #'social_auth.backends.browserid.BrowserIDBackend',
+    #'social_auth.backends.contrib.linkedin.LinkedinBackend',
+    #'social_auth.backends.contrib.livejournal.LiveJournalBackend',
+    #'social_auth.backends.contrib.orkut.OrkutBackend',
+    #'social_auth.backends.contrib.foursquare.FoursquareBackend',
+    #'social_auth.backends.contrib.github.GithubBackend',
+    #'social_auth.backends.contrib.vkontakte.VKontakteBackend',
+    #'social_auth.backends.contrib.live.LiveBackend',
+    #'social_auth.backends.contrib.skyrock.SkyrockBackend',
+    #'social_auth.backends.contrib.yahoo.YahooOAuthBackend',
+    #'social_auth.backends.OpenIDBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 
 ABSOLUTE_URL_OVERRIDES = {
     "auth.user": lambda o: "/profiles/%s/" % o.username,
@@ -174,6 +205,8 @@ CONTACT_EMAIL = "skylar.saveland@mycogia.com"
 SITE_NAME = "Mycogia"
 LOGIN_URL = "/account/login"
 LOGIN_REDIRECT_URLNAME = "home"
+
+
 
 INTERNAL_IPS = (
     '127.0.0.1',
@@ -218,10 +251,10 @@ LOGIN_REDIRECT_URL = '/'
 ACCOUNT_REQUIRED_EMAIL=False
 ACCOUNT_EMAIL_VERIFICATION=False
 
-AUTHENTICATION_BACKENDS = (
-    'facebookconnect.models.FacebookBackend',
-    'django.contrib.auth.backends.ModelBackend',
-)
+#AUTHENTICATION_BACKENDS = (
+    #'facebookconnect.models.FacebookBackend',
+#    'django.contrib.auth.backends.ModelBackend',
+#)
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.
 try:
@@ -231,3 +264,8 @@ except ImportError:
 
 
 MANAGERS = ADMINS
+
+#LOGIN_URL          = '/login-form/'
+#LOGIN_REDIRECT_URL = '/logged-in/'
+#LOGIN_ERROR_URL    = '/login-error/'
+

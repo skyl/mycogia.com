@@ -31,7 +31,7 @@ points = Point.objects.all
 import django.views
 urlpatterns = patterns('',
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    (r'^facebook/', include('facebookconnect.urls')),
+    #(r'^facebook/', include('facebookconnect.urls')),
 
 
     url(r'^admin/upload_progress/', 'misc.views.upload_progress', name="upload_progress"),
@@ -85,6 +85,7 @@ urlpatterns = patterns('',
     (r'^feeds/bookmarks/(.*)/?$', 'django.contrib.syndication.views.Feed', bookmarks_feed_dict),
 
     (r'^points/', include('points.urls')),
+    url(r'^social_auth/', include('social_auth.urls')),
 )
 
 ## @@@ for now, we'll use friends_app to glue this stuff together
