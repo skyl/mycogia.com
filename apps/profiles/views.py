@@ -101,7 +101,7 @@ def profile(request, username, template_name="profiles/profile.html"):
         FriendshipInvitation.objects.filter(to_user=other_user,\
                             from_user=from_user).exclude(status='8')
     previous_invitations_from =\
-        FriendshipInvitation.objects.filter(to_user=request.user,\
+        FriendshipInvitation.objects.filter(to_user=from_user,\
                             from_user=other_user).exclude(status='8')
 
     if is_me:
