@@ -1,10 +1,13 @@
 from django import template
 register = template.Library()
 
+from django.conf import settings
+
 from django.contrib.contenttypes.models import ContentType
 from olwidget.widgets import MapDisplay
 
 from points.models import Point
+
 
 @register.inclusion_tag('points/link.html')
 def add_point_link(model_instance, css_class="add-point"):
@@ -16,7 +19,10 @@ def add_point_link(model_instance, css_class="add-point"):
     app_label = model_instance._meta.app_label
     model_name = model_instance._meta.module_name
 
+    MEDIA_URL = settings.MEDIA_URL
+
     return locals()
+
 
 @register.inclusion_tag('points/show_google_map_single.html')
 def show_google_map(model_instance, css_id="default-map"):
@@ -35,6 +41,7 @@ def show_google_map(model_instance, css_id="default-map"):
         return None
 
     return locals()
+
 
 @register.inclusion_tag('points/show_google_map_multi.html')
 def show_google_all(model_instance):
@@ -78,6 +85,7 @@ def show_ol_map(model_instance):
 
     return locals()
 
+
 @register.inclusion_tag('points/show_ol_media.html')
 def show_ol_media(model_instance):
     ''' What needs to be in head for show_ol_map tag
@@ -85,6 +93,7 @@ def show_ol_media(model_instance):
     '''
     r = show_ol_map(model_instance)
     return r
+
 
 @register.inclusion_tag('points/show_ol_map.html')
 def show_latest_point_ol(model_instance):
@@ -106,6 +115,7 @@ def show_latest_point_ol(model_instance):
     )
 
     return locals()
+
 
 @register.inclusion_tag('points/show_ol_media.html')
 def show_latest_point_ol_media(model_instance):
@@ -147,10 +157,12 @@ def latest_for_queryset_map(queryset):
 
     return locals()
 
+
 @register.inclusion_tag('points/show_ol_media.html')
 def latest_for_queryset_media(queryset):
     r = latest_for_queryset_map(queryset)
     return r
+
 
 @register.inclusion_tag('points/show_google_map_multi.html')
 def latest_for_queryset_google(queryset, css_id="latest_for_queryset"):
@@ -178,6 +190,7 @@ def latest_for_queryset_google(queryset, css_id="latest_for_queryset"):
             continue
 
     return locals()
+
 
 @register.inclusion_tag('points/show_google_map_multi.html')
 def google_show_points_owned_by(user, css_id):
