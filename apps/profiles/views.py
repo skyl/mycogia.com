@@ -28,6 +28,7 @@ if "notification" in settings.INSTALLED_APPS:
 else:
     notification = None
 
+
 def profiles(request, template_name="profiles/profiles.html"):
     users = User.objects.all().order_by("-date_joined")
     search_terms = request.GET.get('search', '')
@@ -46,6 +47,7 @@ def profiles(request, template_name="profiles/profiles.html"):
         'search_terms' : search_terms
     }, context_instance=RequestContext(request))
 
+
 def profile(request, username, template_name="profiles/profile.html"):
     other_user = get_object_or_404(User, username=username)
     if request.user.is_authenticated():
@@ -56,12 +58,14 @@ def profile(request, username, template_name="profiles/profile.html"):
             is_me = True
         else:
             is_me = False
+        from_user = request.user
     else:
         other_friends = []
         is_friend = False
         is_me = False
         is_following = False
-    
+        from_user = None
+
     if is_friend:
         invite_form = None
         previous_invitations_to = None
@@ -95,11 +99,11 @@ def profile(request, username, template_name="profiles/profile.html"):
             })
     previous_invitations_to =\
         FriendshipInvitation.objects.filter(to_user=other_user,\
-                            from_user=request.user).exclude(status='8')
+                            from_user=from_user).exclude(status='8')
     previous_invitations_from =\
         FriendshipInvitation.objects.filter(to_user=request.user,\
                             from_user=other_user).exclude(status='8')
-    
+
     if is_me:
         if request.method == "POST":
             if request.POST["action"] == "update":
@@ -121,7 +125,7 @@ def profile(request, username, template_name="profiles/profile.html"):
 
 
     return render_to_response(template_name, {
-	"followers_count": followers_count,
+        "followers_count": followers_count,
         "following_count": following_count,
         "profile_form": profile_form,
         "is_me": is_me,
@@ -133,6 +137,7 @@ def profile(request, username, template_name="profiles/profile.html"):
         "previous_invitations_to": previous_invitations_to,
         "previous_invitations_from": previous_invitations_from,
     }, context_instance=RequestContext(request))
+
 
 def map(request):
     user = User.objects.all()[0]
